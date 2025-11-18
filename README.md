@@ -17,7 +17,7 @@ All processing happens client-side — your logs never leave your machine.
 - Currently anonymizes: IPv4 & IPv6 addresses, MAC addresses, email addresses, hostnames, usernames, process IDs, UUIDs  
 - Preserves original log structure and timestamps  
 - Copy-paste or drag-and-drop input  
-- No build step, no dependencies — just open `SyslogAnonymizer.html`
+- No build step, no dependencies — just open syslog-anonymizer.html, js or css 
 
 ## Quick Start
 
@@ -34,11 +34,11 @@ xdg-open SyslogAnonymizer.html # Linux
 Open SyslogAnonymizer.html in any modern browser  
 Paste your syslog text or drop a log file  
 Click “Anonymize”  
-Copy the result or click “Download anonymized log”
+Copy the result
 
 ## Customization
 
-Edit the redaction rules directly in the JavaScript section:
+Edit the redaction rules directly in the JavaScript file syslog-anonymizer.js:
 
 ```
 const REDACTION_RULES = [
