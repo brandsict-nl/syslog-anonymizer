@@ -1,0 +1,89 @@
+<!-- syslog-anonymizer.html -->
+<!DOCTYPE html>
+<!-- 
+  Syslog Anonymizer – Browser-based syslog log anonymizer
+  Copyright (c) 2025 BrandsICT
+  Licensed under the MIT License – see LICENSE file for details
+-->
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>syslog-anonymizer</title>
+		<meta name="description" content="Client-side anonymizer for syslog messages. Replace IPs, hostnames, MACs, emails, and usernames.">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="syslog-anonymizer.css">
+		<script src="syslog-anonymizer.js" defer></script>
+		
+		<script type="application/ld+json">
+			{
+			"@context": "https://schema.org",
+			"@type": "SoftwareApplication",
+			"name": "Syslog Anonymizer",
+			"applicationCategory": "Utility",
+			"operatingSystem": "Web Browser",
+			"description": "Client-side tool to anonymize syslog messages by replacing IPs, hostnames, MACs, emails, usernames, URLs, timestamps, and UUIDs.",
+				"featureList": [
+				"IPv4 anonymization",
+				"IPv6 anonymization",
+				"Hostname anonymization",
+				"MAC address anonymization",
+				"Email anonymization",
+				"Username anonymization",
+				"URL anonymization",
+				"Timestamp anonymization",
+				"UUID anonymization"
+				]
+			}
+		</script>
+
+	</head>
+	<body>
+
+		<nav><a href="https://syslserve.com/index.php" style="color:#007acc; font-weight:bold; text-decoration:none;">Home</a></nav>
+
+		<header>
+			<h1>Syslog anonymizer</h1>
+			<p class="desc">Replace IPs, hostnames, MACs, emails, and usernames with consistent placeholders. All processing is local in your browser.</p>
+		</header>
+
+		<div class="grid">
+			<section class="panel">
+				<div class="controls">
+					<label><input type="checkbox" id="ip4" checked=""> IPv4 → <span class="small">x.x.x.x</span></label>
+					<label><input type="checkbox" id="ip6" checked=""> IPv6 → <span class="small">xxxx:xxxx::xxxx</span></label>
+					<label><input type="checkbox" id="host" checked=""> Hostnames → <span class="small">anon.lan</span></label>
+					<label><input type="checkbox" id="mac" checked=""> MAC → <span class="small">aa:aa:aa:aa:aa:aa</span></label>
+					<label><input type="checkbox" id="email" checked=""> Emails → <span class="small">anon@domain</span></label>
+					<label><input type="checkbox" id="user" checked=""> Users → <span class="small">user_###</span></label>
+					<label><input type="checkbox" id="url" checked=""> URLs → <span class="small">https://redacted</span></label>
+					<label><input type="checkbox" id="ts" checked=""> Timestamps → <span class="small">YYYY-MM-DD HH:MM:SS</span></label>
+					<label><input type="checkbox" id="uuid" checked=""> UUID → <span class="small">xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</span></label>
+
+				</div>
+				<div class="btns" style="margin-top:0.75em;">
+					<button id="runBtn">Anonymize</button>
+					<button class="secondary" id="copyBtn">Copy output</button>
+					<button class="secondary" id="clearBtn">Clear</button>
+				</div>
+				<p class="note">Placeholders are designed to be searchable while hiding sensitive details. Replacement is deterministic within one run for usernames and hostnames.</p>
+			</section>
+
+			<div class="row">
+				<section class="panel">
+					<h3 style="color:#0b5fa8; margin-top:0;">Input</h3>
+					<textarea id="input" placeholder="Paste syslog lines here...
+					Nov 16 14:20:05 server1 sshd[1234]: Accepted password for alice from 203.0.113.5 port 54321 ssh2
+					..."></textarea>
+				</section>
+				<section class="panel">
+					<h3 style="color:#0b5fa8; margin-top:0;">Output</h3>
+					<textarea id="output" placeholder="Anonymized output appears here..." readonly=""></textarea>
+				</section>
+			</div>
+		</div>
+
+		<footer class="small" style="margin-top:1em;">
+		Tip: Keep originals offline. This tool anonymizes for sharing and searching without exposing identities or networks.
+		</footer>
+	</body>
+</html>
