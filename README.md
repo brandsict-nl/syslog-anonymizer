@@ -3,7 +3,7 @@
 **Browser-based Syslog Anonymizer: JavaScript tool to redact sensitive data from syslog messages locally—no server uploads, ensuring privacy for logs.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/syslog-anonymizer?style=social)](https://github.com/brandsict-nl/syslog-anonymizer)
+[![GitHub stars](https://img.shields.io/github/stars/brandsict-nl/syslog-anonymizer?style=social)](https://github.com/brandsict-nl/syslog-anonymizer)
 
 Simple, zero-dependency JavaScript tool that anonymizes syslog messages directly in your browser.  
 All processing happens client-side — your logs never leave your machine.
