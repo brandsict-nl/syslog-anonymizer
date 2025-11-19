@@ -25,8 +25,10 @@
     ipv6: /\b([0-9a-f]{1,4}:){1,7}[0-9a-f]{1,4}\b/gi, // basic IPv6 (no full RFC coverage but good recall)
     mac: /\b(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}\b/g,
     email: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g,
-    // Hostnames (RFC-lite): allow dots and hyphens; avoid matching URLs by excluding "://"
-    hostname: /\b(?!https?:\/\/)([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+)\b/gi,
+    
+	// Hostnames - now safely excludes IPv4 addresses	
+	hostname: /\b(?!https?:\/\/)(?![\d.]+$)(?!.*\.\d+$)([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,})\b/gi,
+	
     // URLs (captures protocol and domain; leaves path anonymized)
     url: /\bhttps?:\/\/[^\s]+/gi,
     // Common username capture following "for <user>" or "user <name>" or "login for <name>"
@@ -51,8 +53,8 @@
       out = out.replace(rx.ts1, 'MMM DD HH:MM:SS');
       out = out.replace(rx.ts2, 'YYYY-MM-DD HH:MM:SSZ');
     }
-    if (opts.ip4) out = out.replace(rx.ipv4, 'x.x.x.x');
-    if (opts.ip6) out = out.replace(rx.ipv6, 'xxxx:xxxx::xxxx');
+    if (opts.ip4) out = out.replace(rx.ipv4, '<ip4>');
+    if (opts.ip6) out = out.replace(rx.ipv6, '<ip6>');
     if (opts.mac) out = out.replace(rx.mac, 'aa:aa:aa:aa:aa:aa');
     if (opts.email) out = out.replace(rx.email, 'anon@domain');
 	if (opts.uuid) out = out.replace(rx.uuid, 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
@@ -82,36 +84,41 @@
       });
     }
 
-    // Final pass: normalize any host_* to anon.lan if you prefer a generic value
-    // Comment out to keep host_### format
-    out = out.replace(/\bhost_\d{3}\b/g, 'anon.lan');
-
     return out;
   }
 
-  // Wire up UI
-  const $ = id => document.getElementById(id);
-  $('runBtn').addEventListener('click', () => {
-    const opts = {
-      ip4: $('ip4').checked,
-      ip6: $('ip6').checked,
-      host: $('host').checked,
-      mac: $('mac').checked,
-      email: $('email').checked,
-      user: $('user').checked,
-      url: $('url').checked,
-      ts: $('ts').checked
-    };
-    $('output').value = anonymize($('input').value, opts);
-  });
-  $('copyBtn').addEventListener('click', async () => {
-    const txt = $('output').value;
-    if (!txt) return;
-    try { await navigator.clipboard.writeText(txt); } catch(e) { /* noop */ }
-  });
-  $('clearBtn').addEventListener('click', () => {
-    $('input').value = '';
-    $('output').value = '';
-    userMap.clear(); hostMap.clear(); userCounter = 1; hostCounter = 1;
-  });
+	// Wire up UI
+	const $ = id => document.getElementById(id);
+	
+	$('runBtn').addEventListener('click', () => {
+		const opts = {
+		ip4: $('ip4').checked,
+		ip6: $('ip6').checked,
+		host: $('host').checked,
+		mac: $('mac').checked,
+		email: $('email').checked,
+		user: $('user').checked,
+		url: $('url').checked,
+		ts: $('ts').checked
+	};
+	
+	$('output').value = anonymize($('input').value, opts);
+	});
+  
+	$('copyBtn').addEventListener('click', async () => {
+		const txt = $('output').value;
+		if (!txt) return;
+		try { 
+			await navigator.clipboard.writeText(txt); 
+		} 
+		catch(e) { 
+			/* noop */ 
+		}
+	});
+  
+	$('clearBtn').addEventListener('click', () => {
+		$('input').value = '';
+		$('output').value = '';
+		userMap.clear(); hostMap.clear(); userCounter = 1; hostCounter = 1;
+	});
 })();
