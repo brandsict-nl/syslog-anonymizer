@@ -22,7 +22,7 @@ All processing happens client-side — your logs never leave your machine.
 ## Quick Start
 
 bash
-git clone https://github.com/yourusername/syslog-anonymizer.git
+git clone https://github.com/brandsict-nl/syslog-anonymizer.git
 cd syslog-anonymizer
 # Open the main file
 open SyslogAnonymizer.html    # macOS
